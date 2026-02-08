@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #fff0f3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        #container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2);
+            z-index: 10;
+            max-width: 450px; /* Keeps the card tidy */
+            margin: 20px;
+        }
+
+        h1 { color: #ff4b6e; margin-bottom: 1.5rem; }
+        p { color: #555; line-height: 1.6; }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            min-height: 150px; /* Extra space for growing button */
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+        }
+
+        #yesBtn { background-color: #ff4b6e; color: white; }
+        #noBtn { background-color: #fbafbc; color: white; }
+
+        .hidden { display: none; }
+
+        /* Styling the Important Note */
+        .details-note {
+            display: block; /* Makes it sit on its own line */
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff5f6;
+            border: 1px dashed #ff4b6e;
+            border-radius: 10px;
+            color: #d63384;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        #celebration { animation: fadeIn 1s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .heart {
+            position: absolute;
+            color: #ff4b6e;
+            font-size: 20px;
+            user-select: none;
+            animation: float 5s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="question-view">
+            <h1 id="main-text">Will you be my Valentine? 🌹</h1>
+            <div class="btn-container">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+
+        <div id="celebration" class="hidden">
+            <h1>Yay! Best decision ever! ❤️</h1>
+            <p>I can't wait to spend the day with you. I love you!</p>
+            
+            <span class="details-note">
+                <strong>Important note:</strong> Please wear a black outfit, make yourself beautiful, and be ready for pick-up on February 14, 2026 at 4:00 PM.
+            </span>
+
+            <div style="font-size: 50px; margin-top: 20px;">🥰✨🥂</div>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionView = document.getElementById('question-view');
+        const celebration = document.getElementById('celebration');
+        
+        let yesSize = 1.2;
+        let noSize = 1.2;
+
+        noBtn.addEventListener('click', () => {
+            yesSize += 0.5;
+            yesBtn.style.fontSize = `${yesSize}rem`;
+            yesBtn.style.padding = `${15 * yesSize}px ${30 * yesSize}px`;
+
+            noSize -= 0.2;
+            noBtn.style.fontSize = `${noSize}rem`;
+            noBtn.style.padding = `${15 * noSize}px ${30 * noSize}px`;
+
+            if (noSize <= 0.4) {
+                noBtn.style.display = 'none';
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            questionView.classList.add('hidden');
+            celebration.classList.remove('hidden');
+            
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4b6e', '#ffccd5', '#ffffff']
+            });
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
