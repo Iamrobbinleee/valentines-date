@@ -25,19 +25,27 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2);
             z-index: 10;
-            max-width: 450px; /* Keeps the card tidy */
+            max-width: 450px;
             margin: 20px;
         }
 
-        h1 { color: #ff4b6e; margin-bottom: 1.5rem; }
+        h1 { color: #ff4b6e; margin-bottom: 0.5rem; }
         p { color: #555; line-height: 1.6; }
+
+        /* Style for the central emoji */
+        #status-emoji {
+            font-size: 80px;
+            margin: 20px 0;
+            display: block;
+            transition: transform 0.3s ease;
+        }
 
         .btn-container {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
-            min-height: 150px; /* Extra space for growing button */
+            min-height: 150px;
         }
 
         button {
@@ -55,9 +63,8 @@
 
         .hidden { display: none; }
 
-        /* Styling the Important Note */
         .details-note {
-            display: block; /* Makes it sit on its own line */
+            display: block;
             margin-top: 20px;
             padding: 15px;
             background-color: #fff5f6;
@@ -89,7 +96,10 @@
 
     <div id="container">
         <div id="question-view">
-            <h1 id="main-text">Will you be my Valentine? 🌹</h1>
+            <h1 id="main-text">Hi Love! <br> Will you be my Valentine?</h1>
+            
+            <div id="status-emoji">🤗💖</div>
+
             <div class="btn-container">
                 <button id="yesBtn">Yes</button>
                 <button id="noBtn">No</button>
@@ -104,7 +114,7 @@
                 <strong>Important note:</strong> Please wear a black outfit, make yourself beautiful, and be ready for pick-up on February 14, 2026 at 4:00 PM.
             </span>
 
-            <div style="font-size: 50px; margin-top: 20px;">🥰✨🥂</div>
+            <div style="font-size: 50px; margin-top: 20px;">🥰😘😍</div>
         </div>
     </div>
 
@@ -113,18 +123,34 @@
         const noBtn = document.getElementById('noBtn');
         const questionView = document.getElementById('question-view');
         const celebration = document.getElementById('celebration');
+        const statusEmoji = document.getElementById('status-emoji');
         
         let yesSize = 1.2;
         let noSize = 1.2;
+        let clickCount = 0;
+
+        // Array of emojis to show as they keep clicking "No"
+        const sadEmojis = ["😟", "🥺", "😢", "😭", "🥀", "💔"];
 
         noBtn.addEventListener('click', () => {
+            // Increase click count to cycle emojis
+            if (clickCount < sadEmojis.length) {
+                statusEmoji.innerText = sadEmojis[clickCount];
+                clickCount++;
+            }
+
+            // Button size logic
             yesSize += 0.5;
             yesBtn.style.fontSize = `${yesSize}rem`;
             yesBtn.style.padding = `${15 * yesSize}px ${30 * yesSize}px`;
 
-            noSize -= 0.2;
+            noSize -= 0.15;
             noBtn.style.fontSize = `${noSize}rem`;
             noBtn.style.padding = `${15 * noSize}px ${30 * noSize}px`;
+
+            // Adding a little shake effect to the emoji when No is clicked
+            statusEmoji.style.transform = "scale(1.2)";
+            setTimeout(() => { statusEmoji.style.transform = "scale(1)"; }, 200);
 
             if (noSize <= 0.4) {
                 noBtn.style.display = 'none';
