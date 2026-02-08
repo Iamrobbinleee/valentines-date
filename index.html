@@ -62,7 +62,6 @@
 
         .hidden { display: none; }
 
-        /* Style for Important Note (Pink/Red) */
         .details-note {
             display: block;
             margin-top: 15px;
@@ -75,17 +74,16 @@
             font-weight: 500;
         }
 
-        /* NEW Style for Date Information (Blue/Professional) */
         .details-note2 {
             display: block;
             margin-top: 20px;
             padding: 15px;
-            background-color: #f0f7ff; /* Light blue background */
-            border: 1px solid #007bff;   /* Solid blue border */
+            background-color: #f0f7ff;
+            border: 1px solid #007bff;
             border-radius: 10px;
             color: #0056b3;
             font-size: 0.95rem;
-            text-align: left; /* Align text left for the list */
+            text-align: left;
         }
 
         .details-note2 ul {
@@ -161,6 +159,7 @@
     <script>
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
+        const mainText = document.getElementById('main-text');
         const questionView = document.getElementById('question-view');
         const celebration = document.getElementById('celebration');
         const statusEmoji = document.getElementById('status-emoji');
@@ -168,21 +167,40 @@
         let yesSize = 1.2;
         let noSize = 1.2;
         let clickCount = 0;
-        const sadEmojis = ["😟", "🥺", "😢", "😭", "🥀", "💔"];
+
+        const sadEmojis = ["😟", "🥺", "😭", "💔", "😢", "😤"];
+        const encourageTexts = [
+            "Are you sure?",
+            "Pleease think about it!",
+            "Don't do this to me...",
+            "You're breaking my heart!",
+            "I'll be very sad...",
+            "Just click Yes already! "
+        ];
 
         noBtn.addEventListener('click', () => {
+            // Update Emoji and Text based on clickCount
             if (clickCount < sadEmojis.length) {
                 statusEmoji.innerText = sadEmojis[clickCount];
+                mainText.innerHTML = encourageTexts[clickCount];
                 clickCount++;
             }
+
+            // Grow Yes button
             yesSize += 0.5;
             yesBtn.style.fontSize = `${yesSize}rem`;
             yesBtn.style.padding = `${15 * yesSize}px ${30 * yesSize}px`;
+
+            // Shrink No button
             noSize -= 0.15;
             noBtn.style.fontSize = `${noSize}rem`;
             noBtn.style.padding = `${15 * noSize}px ${30 * noSize}px`;
+
+            // Emoji bounce effect
             statusEmoji.style.transform = "scale(1.2)";
             setTimeout(() => { statusEmoji.style.transform = "scale(1)"; }, 200);
+
+            // Hide No button if it gets too small
             if (noSize <= 0.4) { noBtn.style.display = 'none'; }
         });
 
